@@ -37,7 +37,13 @@ public class BoardController {
     // /api/board/5
     // /api/board/6
     @GetMapping("{id}")
-    public Board get(@PathVariable Integer id) {
-        return service.get(id);
+    public ResponseEntity get(@PathVariable Integer id) {
+        // 조회된 것이 없으면 null을 응답
+        Board board = service.get(id);
+        if (board == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

@@ -4,10 +4,9 @@ import com.prj2spring20240521.domain.board.Board;
 import com.prj2spring20240521.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/board")
@@ -18,6 +17,7 @@ public class BoardController {
 
     @PostMapping("add")
     public ResponseEntity add(@RequestBody Board board) {
+
         // 제목, 본문, 작성자가 비어있으면 저장이 안되게 검사
         if (service.validate(board)) {
             service.add(board);
@@ -27,5 +27,10 @@ public class BoardController {
             return ResponseEntity.badRequest().build();
         }
 
+    }
+
+    @GetMapping("list")
+    public List<Board> list() {
+        return service.list();
     }
 }

@@ -40,10 +40,16 @@ public class BoardController {
     public ResponseEntity get(@PathVariable Integer id) {
         // 조회된 것이 없으면 null을 응답
         Board board = service.get(id);
+
         if (board == null) {
             return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(board);
+    }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Integer id) {
+        service.remove(id);
     }
 }

@@ -29,7 +29,19 @@ public class MemberController {
     }
 
     @GetMapping(value = "check", params = "nickName")
-    public void checkNickName(@RequestParam("nickName") String nickName) {
+    public ResponseEntity checkNickName(@RequestParam("nickName") String nickName) {
         System.out.println("nickName = " + nickName);
+        Member member = service.getByNickName(nickName);
+        if (member == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(member.getNickName());
+
+        /* practice/nickNameCheck에서 200 <-> 404 바꿔서 확인할 때 사용하는 코드
+        if (member == null) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        */
     }
 }

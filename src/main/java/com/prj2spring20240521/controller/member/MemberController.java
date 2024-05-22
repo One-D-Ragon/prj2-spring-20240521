@@ -14,8 +14,14 @@ public class MemberController {
     final MemberService service;
 
     @PostMapping("signup")
-    public void signup(@RequestBody Member member) {
-        service.add(member);
+    public ResponseEntity signup(@RequestBody Member member) {
+        // 입력한 회원가입정보가 유효한지 확인
+        if (service.validate(member)) {
+            service.add(member);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping(value = "check", params = "email")

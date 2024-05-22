@@ -24,3 +24,7 @@ CREATE TABLE member
     nick_name VARCHAR(100) NOT NULL UNIQUE,
     inserted  DATETIME     NOT NULL DEFAULT NOW()
 );
+
+SELECT *
+FROM member
+ORDER BY id DESC;

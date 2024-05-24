@@ -41,3 +41,4 @@ public interface BoardMapper {
             """)
     int update(Board board);
 }
+

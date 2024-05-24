@@ -20,4 +20,5 @@ public class Member {
 
         return inserted.format(formatter);
     }
+
 }

@@ -61,6 +61,5 @@ public interface MemberMapper {
             FROM authority
             WHERE member_id=#{memberId}
             """)
-    public List<String> selectAuthorityByMemberId(Integer memberId) {
-    }
+    List<String> selectAuthorityByMemberId(Integer memberId);
 }

@@ -1,6 +1,7 @@
 package com.prj2spring20240521.service.member;
 
 import com.prj2spring20240521.domain.member.Member;
+import com.prj2spring20240521.mapper.board.BoardMapper;
 import com.prj2spring20240521.mapper.member.MemberMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ public class MemberService {
     final MemberMapper mapper;
     final BCryptPasswordEncoder passwordEncoder;
     final JwtEncoder jwtEncoder;
+    private final BoardMapper boardMapper;
 
     public void add(Member member) {
         // 사용자로부터 입력받은 패스워드를 암호화
@@ -73,6 +75,10 @@ public class MemberService {
     }
 
     public void remove(Integer id) {
+        // board 테이블에서 작성한 글 지우기
+        boardMapper.deleteByMemberId(id);
+
+        // member 테이블에서 지우기
         mapper.deletyById(id);
     }
 

@@ -40,11 +40,13 @@ public class BoardService {
         Map pageInfo = new HashMap();
         Integer countAll = mapper.countAll();
 
-
         Integer offset = (page - 1) * 10;
         Integer lastPageNumber = (countAll - 1) / 10 + 1;
         Integer leftPageNumber = (page - 1) / 10 * 10 + 1;
         Integer rightPageNUmber = leftPageNumber + 9;
+        rightPageNUmber = Math.min(rightPageNUmber, lastPageNumber);
+
+        // 이전, 처음, 다음, 맨끝 버튼 만들기
 
         // 현재, 마지막 페이지 넘버
         pageInfo.put("currentPageNumber", page);

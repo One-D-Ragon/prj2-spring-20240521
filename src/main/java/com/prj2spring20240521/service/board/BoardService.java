@@ -47,6 +47,14 @@ public class BoardService {
         rightPageNUmber = Math.min(rightPageNUmber, lastPageNumber);
 
         // 이전, 처음, 다음, 맨끝 버튼 만들기
+        Integer prevPageNumber = leftPageNumber - 1;
+        Integer nextPageNumber = rightPageNUmber + 1;
+        if (prevPageNumber > 0) {
+            pageInfo.put("prevPageNumber", prevPageNumber);
+        }
+        if (nextPageNumber <= lastPageNumber) {
+            pageInfo.put("nextPageNumber", nextPageNumber);
+        }
 
         // 현재, 마지막 페이지 넘버
         pageInfo.put("currentPageNumber", page);

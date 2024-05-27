@@ -43,10 +43,14 @@ public class BoardService {
 
         Integer offset = (page - 1) * 10;
         Integer lastPageNumber = (countAll - 1) / 10 + 1;
+        Integer leftPageNumber = (page - 1) / 10 * 10 + 1;
+        Integer rightPageNUmber = leftPageNumber + 9;
 
         // 현재, 마지막 페이지 넘버
         pageInfo.put("currentPageNumber", page);
         pageInfo.put("lastPageNumber", lastPageNumber);
+        pageInfo.put("leftPageNumber", leftPageNumber);
+        pageInfo.put("rightPageNumber", rightPageNUmber);
 
         return Map.of("pageInfo", pageInfo, "boardList", mapper.selectAllPaging(offset));
     }

@@ -36,7 +36,7 @@ public class BoardService {
         return true;
     }
 
-    public Map<String, Object> list(Integer page) {
+    public Map<String, Object> list(Integer page, String searchType, String keyword) {
         Map pageInfo = new HashMap();
         Integer countAll = mapper.countAll();
 
@@ -65,7 +65,7 @@ public class BoardService {
         pageInfo.put("leftPageNumber", leftPageNumber);
         pageInfo.put("rightPageNumber", rightPageNUmber);
 
-        return Map.of("pageInfo", pageInfo, "boardList", mapper.selectAllPaging(offset));
+        return Map.of("pageInfo", pageInfo, "boardList", mapper.selectAllPaging(offset, searchType, keyword));
     }
 
     public Board get(Integer id) {

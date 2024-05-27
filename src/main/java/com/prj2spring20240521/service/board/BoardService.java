@@ -45,6 +45,9 @@ public class BoardService {
         Integer leftPageNumber = (page - 1) / 10 * 10 + 1;
         Integer rightPageNUmber = leftPageNumber + 9;
         rightPageNUmber = Math.min(rightPageNUmber, lastPageNumber);
+        // 마지막 페이지네이션이 10개가 안되면 왼쪽을 채워 넣음
+        leftPageNumber = rightPageNUmber - 9;
+        leftPageNumber = Math.max(leftPageNumber, 1);
 
         // 이전, 처음, 다음, 맨끝 버튼 만들기
         Integer prevPageNumber = leftPageNumber - 1;

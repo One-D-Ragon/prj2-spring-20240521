@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -24,7 +25,7 @@ public class BoardController {
     public ResponseEntity add(
             Authentication authentication,
             Board board,
-            @RequestParam(value = "files[]", required = false) MultipartFile[] files) {
+            @RequestParam(value = "files[]", required = false) MultipartFile[] files) throws IOException {
 
         // 제목, 본문이 비어있으면 저장이 안되게 검사
         if (service.validate(board)) {

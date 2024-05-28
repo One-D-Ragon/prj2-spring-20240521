@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -73,8 +74,13 @@ public class BoardController {
     }
 
     @PutMapping("edit")
-    public ResponseEntity edit(@RequestBody Board board
-            , Authentication authentication) {
+    public ResponseEntity edit(Board board,
+                               @RequestParam(value = "removeFileList[]", required = false) List<String> removeFileList,
+                               Authentication authentication) {
+
+        System.out.println("board = " + board);
+        System.out.println("removeFileList = " + removeFileList);
+
         if (!service.hasAccess(board.getId(), authentication)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }

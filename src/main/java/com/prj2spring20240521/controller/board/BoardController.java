@@ -26,16 +26,9 @@ public class BoardController {
             Board board,
             @RequestParam(value = "files[]", required = false) MultipartFile[] files) {
 
-        if (files != null) {
-            System.out.println("files = " + files.length);
-        }
-        for (MultipartFile file : files) {
-            System.out.println("file.name = " + file.getOriginalFilename());
-        }
-
         // 제목, 본문이 비어있으면 저장이 안되게 검사
         if (service.validate(board)) {
-            service.add(board, authentication);
+            service.add(board, files, authentication);
             return ResponseEntity.ok().build();
         } else {
             // 입력한 값이 비었을 경우 400 코드를 리턴함

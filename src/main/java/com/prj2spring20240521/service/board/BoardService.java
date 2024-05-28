@@ -130,7 +130,7 @@ public class BoardService {
         mapper.deleteById(id);
     }
 
-    public void edit(Board board, List<String> removeFileList) {
+    public void edit(Board board, List<String> removeFileList, MultipartFile[] addFileList) throws IOException {
         if (removeFileList != null && removeFileList.size() > 0) {
             for (String fileName : removeFileList) {
                 // disk의 파일 삭제
@@ -139,6 +139,24 @@ public class BoardService {
                 file.delete();
                 // db records 삭제
                 mapper.deleteFileByBoardIdAndName(board.getId(), fileName);
+            }
+        }
+
+        if (addFileList != null && addFileList.length > 0) {
+            // 이미 있는 파일 목록을 얻어옴
+            List<String> fileNameList = mapper.selectFileNameByBoardId(board.getId());
+            for (MultipartFile file : addFileList) {
+                String fileName = file.getOriginalFilename();
+                if (!fileNameList.contains(fileName)) {
+                    // 새 파일이 기존에 없을 때만 db에 추가
+                    mapper.insertFileName(board.getId(), fileName);
+                }
+
+                // disk 에 쓰기(덮어써짐)
+                File dir = new File(STR."C:/Temp/prj2/\{board.getId()}");
+                String path = STR."C:/Temp/prj2/\{board.getId()}/\{fileName}";
+                File destination = new File(path);
+                file.transferTo(destination);
             }
         }
 

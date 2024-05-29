@@ -116,3 +116,14 @@ CREATE TABLE board_file
 
 SELECT *
 FROM board_file;
+
+# board_like 만들기
+CREATE TABLE board_like
+(
+    board_id  INT REFERENCES board (id),
+    member_id INT REFERENCES member (id),
+    PRIMARY KEY (board_id, member_id)
+);
+
+SELECT *
+FROM board_like;

@@ -16,7 +16,6 @@ import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -144,10 +143,14 @@ public class BoardService {
     public void edit(Board board, List<String> removeFileList, MultipartFile[] addFileList) throws IOException {
         if (removeFileList != null && removeFileList.size() > 0) {
             for (String fileName : removeFileList) {
-                // disk의 파일 삭제
-                String path = STR."C:/Temp/prj2/\{board.getId()}/\{fileName}";
-                File file = new File(path);
-                file.delete();
+                // s3의 파일 삭제
+                String key = STR."prj2/\{board.getId()}/\{fileName}";
+                DeleteObjectRequest objectRequest = DeleteObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(key)
+                        .build();
+                s3Client.deleteObject(objectRequest);
+
                 // db records 삭제
                 mapper.deleteFileByBoardIdAndName(board.getId(), fileName);
             }
@@ -163,11 +166,15 @@ public class BoardService {
                     mapper.insertFileName(board.getId(), fileName);
                 }
 
-                // disk 에 쓰기(덮어써짐)
-                File dir = new File(STR."C:/Temp/prj2/\{board.getId()}");
-                String path = STR."C:/Temp/prj2/\{board.getId()}/\{fileName}";
-                File destination = new File(path);
-                file.transferTo(destination);
+                // s3 에 쓰기(덮어써짐)
+                String key = STR."prj2/\{board.getId()}/\{fileName}";
+                PutObjectRequest objectRequest = PutObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(key)
+                        .acl(ObjectCannedACL.PUBLIC_READ)
+                        .build();
+
+                s3Client.putObject(objectRequest, RequestBody.fromInputStream(file.getInputStream(), file.getSize()));
             }
         }
 

@@ -122,6 +122,7 @@ public class BoardService {
             like.put("like", false);
         } else {
             int c = mapper.selectLikeByBoardIdAndMemberId(id, authentication.getName());
+            like.put("like", c == 1);
         }
         like.put("count", mapper.selectCountLikeByBoardId(id));
         result.put("board", board);

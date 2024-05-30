@@ -30,11 +30,16 @@ public class CommentController {
         } else {
             return ResponseEntity.badRequest().build();
         }
-        
+
     }
 
     @GetMapping("list/{boardId}")
     public List<Comment> list(@PathVariable Integer boardId) {
         return service.list(boardId);
+    }
+
+    @DeleteMapping("remove")
+    public void remove(Comment comment) {
+        service.remove(comment);
     }
 }

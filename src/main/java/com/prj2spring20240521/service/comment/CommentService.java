@@ -53,4 +53,8 @@ public class CommentService {
         }
         return true;
     }
+
+    public void update(Comment comment) {
+        mapper.update(comment);
+    }
 }

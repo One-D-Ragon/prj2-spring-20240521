@@ -50,4 +50,9 @@ public class CommentController {
         }
 
     }
+
+    @PutMapping("edit")
+    public void edit(@RequestBody Comment comment) {
+        service.update(comment);
+    }
 }

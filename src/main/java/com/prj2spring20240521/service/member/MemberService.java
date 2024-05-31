@@ -3,6 +3,7 @@ package com.prj2spring20240521.service.member;
 import com.prj2spring20240521.domain.board.Board;
 import com.prj2spring20240521.domain.member.Member;
 import com.prj2spring20240521.mapper.board.BoardMapper;
+import com.prj2spring20240521.mapper.comment.CommentMapper;
 import com.prj2spring20240521.mapper.member.MemberMapper;
 import com.prj2spring20240521.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class MemberService {
     final JwtEncoder jwtEncoder;
     private final BoardMapper boardMapper;
     private final BoardService boardService;
+    private final CommentMapper commentMapper;
 
     public void add(Member member) {
         // 사용자로부터 입력받은 패스워드를 암호화
@@ -88,6 +90,9 @@ public class MemberService {
 
         // 좋아요 지우기
         boardMapper.deleteLikeByMemberId(id);
+
+        // 댓글 지우기
+        commentMapper.deleteByMemberId(id);
 
         // member 테이블에서 지우기
         mapper.deletyById(id);
